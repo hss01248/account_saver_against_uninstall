@@ -1,0 +1,41 @@
+group 'com.hss01248.account_saver_against_uninstall'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 31
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion 19
+    }
+}
+
+dependencies {
+    debugImplementation 'com.github.hss01248.accountCacher:accountcache:1.1.6'
+    releaseImplementation 'com.github.hss01248.accountCacher:no-op:1.1.6'
+    api "com.blankj:utilcodex:1.30.0"
+}
