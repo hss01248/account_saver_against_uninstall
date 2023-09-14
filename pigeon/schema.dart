@@ -10,6 +10,9 @@ abstract class IAccountSaver {
   void init( int dev,int test,int release, bool storeReleaseAccount);
 
   @async
+  void initAppName(String appName);
+
+  @async
   Map<String,Object?>  selectAccount(int hostType,  String countryCode) ;
 
   @async

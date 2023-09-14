@@ -4,7 +4,7 @@
 
 import 'dart:async';
 import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
-import 'dart:io';
+
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
@@ -19,9 +19,6 @@ class IAccountSaver {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   Future<void> init(int arg_dev, int arg_test, int arg_release, bool arg_storeReleaseAccount) async {
-    if(!Platform.isAndroid){
-      return ;
-    }
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.IAccountSaver.init', codec,
         binaryMessenger: _binaryMessenger);
@@ -43,11 +40,29 @@ class IAccountSaver {
     }
   }
 
-  Future<Map<String?, Object?>> selectAccount(int arg_hostType, String arg_countryCode) async {
-    if(!Platform.isAndroid){
-      //todo ios使用keychain
-      return Future.value({});
+  Future<void> initAppName(String arg_appName) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.IAccountSaver.initAppName', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_appName]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
     }
+  }
+
+  Future<Map<String?, Object?>> selectAccount(int arg_hostType, String arg_countryCode) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.IAccountSaver.selectAccount', codec,
         binaryMessenger: _binaryMessenger);
@@ -75,9 +90,6 @@ class IAccountSaver {
   }
 
   Future<void> saveAccount(int arg_currentHostType, String arg_countryCode, String arg_account, String arg_pw) async {
-    if(!Platform.isAndroid){
-      return;
-    }
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.IAccountSaver.saveAccount', codec,
         binaryMessenger: _binaryMessenger);

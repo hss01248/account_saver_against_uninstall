@@ -26,6 +26,11 @@ public class AccountSaverImpl implements AccountSaverPigeon.IAccountSaver{
     }
 
     @Override
+    public void initAppName(@NonNull String appName, @NonNull AccountSaverPigeon.Result<Void> result) {
+        AccountCacher.init(appName,true);
+    }
+
+    @Override
     public void selectAccount(@NonNull Long hostType, @NonNull String countryCode,
                               @NonNull AccountSaverPigeon.Result<Map<String, Object>> result) {
 

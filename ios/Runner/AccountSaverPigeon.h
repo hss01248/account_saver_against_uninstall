@@ -16,6 +16,7 @@ NSObject<FlutterMessageCodec> *FLTIAccountSaverGetCodec(void);
 
 @protocol FLTIAccountSaver
 - (void)initDev:(NSNumber *)dev test:(NSNumber *)test release:(NSNumber *)release storeReleaseAccount:(NSNumber *)storeReleaseAccount completion:(void (^)(FlutterError *_Nullable))completion;
+- (void)initAppNameAppName:(NSString *)appName completion:(void (^)(FlutterError *_Nullable))completion;
 - (void)selectAccountHostType:(NSNumber *)hostType countryCode:(NSString *)countryCode completion:(void (^)(NSDictionary<NSString *, id> *_Nullable, FlutterError *_Nullable))completion;
 - (void)saveAccountCurrentHostType:(NSNumber *)currentHostType countryCode:(NSString *)countryCode account:(NSString *)account pw:(NSString *)pw completion:(void (^)(FlutterError *_Nullable))completion;
 @end

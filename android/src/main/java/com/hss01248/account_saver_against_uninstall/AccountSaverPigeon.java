@@ -68,6 +68,8 @@ public class AccountSaverPigeon {
 
     void init(@NonNull Long dev, @NonNull Long test, @NonNull Long release, @NonNull Boolean storeReleaseAccount, @NonNull Result<Void> result);
 
+    void initAppName(@NonNull String appName, @NonNull Result<Void> result);
+
     void selectAccount(@NonNull Long hostType, @NonNull String countryCode, @NonNull Result<Map<String, Object>> result);
 
     void saveAccount(@NonNull Long currentHostType, @NonNull String countryCode, @NonNull String account, @NonNull String pw, @NonNull Result<Void> result);
@@ -105,6 +107,35 @@ public class AccountSaverPigeon {
                     };
 
                 api.init((devArg == null) ? null : devArg.longValue(), (testArg == null) ? null : testArg.longValue(), (releaseArg == null) ? null : releaseArg.longValue(), storeReleaseAccountArg, resultCallback);
+              });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(
+                binaryMessenger, "dev.flutter.pigeon.IAccountSaver.initAppName", getCodec());
+        if (api != null) {
+          channel.setMessageHandler(
+              (message, reply) -> {
+                ArrayList<Object> wrapped = new ArrayList<Object>();
+                ArrayList<Object> args = (ArrayList<Object>) message;
+                String appNameArg = (String) args.get(0);
+                Result<Void> resultCallback =
+                    new Result<Void>() {
+                      public void success(Void result) {
+                        wrapped.add(0, null);
+                        reply.reply(wrapped);
+                      }
+
+                      public void error(Throwable error) {
+                        ArrayList<Object> wrappedError = wrapError(error);
+                        reply.reply(wrappedError);
+                      }
+                    };
+
+                api.initAppName(appNameArg, resultCallback);
               });
         } else {
           channel.setMessageHandler(null);

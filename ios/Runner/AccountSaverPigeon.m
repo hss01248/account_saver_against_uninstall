@@ -53,6 +53,25 @@ void FLTIAccountSaverSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.IAccountSaver.initAppName"
+        binaryMessenger:binaryMessenger
+        codec:FLTIAccountSaverGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(initAppNameAppName:completion:)], @"FLTIAccountSaver api (%@) doesn't respond to @selector(initAppNameAppName:completion:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        NSString *arg_appName = GetNullableObjectAtIndex(args, 0);
+        [api initAppNameAppName:arg_appName completion:^(FlutterError *_Nullable error) {
+          callback(wrapResult(nil, error));
+        }];
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
         initWithName:@"dev.flutter.pigeon.IAccountSaver.selectAccount"
         binaryMessenger:binaryMessenger
         codec:FLTIAccountSaverGetCodec()];
