@@ -3,6 +3,7 @@
 // ignore_for_file: public_member_api_docs, non_constant_identifier_names, avoid_as, unused_import, unnecessary_parenthesis, prefer_null_aware_operators, omit_local_variable_types, unused_shown_name, unnecessary_import
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
 
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
@@ -19,6 +20,9 @@ class IAccountSaver {
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
   Future<void> init(int arg_dev, int arg_test, int arg_release, bool arg_storeReleaseAccount) async {
+    if(Platform.isAndroid == false){
+      return Future(() => null);
+    }
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.IAccountSaver.init', codec,
         binaryMessenger: _binaryMessenger);
@@ -41,6 +45,9 @@ class IAccountSaver {
   }
 
   Future<void> initAppName(String arg_appName) async {
+    if(Platform.isAndroid == false){
+      return Future(() => null);
+    }
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.IAccountSaver.initAppName', codec,
         binaryMessenger: _binaryMessenger);
@@ -63,6 +70,9 @@ class IAccountSaver {
   }
 
   Future<Map<String?, Object?>> selectAccount(int arg_hostType, String arg_countryCode) async {
+    if(Platform.isAndroid == false){
+      return Future(() => {});
+    }
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.IAccountSaver.selectAccount', codec,
         binaryMessenger: _binaryMessenger);
@@ -90,6 +100,9 @@ class IAccountSaver {
   }
 
   Future<void> saveAccount(int arg_currentHostType, String arg_countryCode, String arg_account, String arg_pw) async {
+    if(Platform.isAndroid == false){
+      return Future(() => null);
+    }
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.IAccountSaver.saveAccount', codec,
         binaryMessenger: _binaryMessenger);

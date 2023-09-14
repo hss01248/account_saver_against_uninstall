@@ -1,6 +1,6 @@
 name: account_saver_against_uninstall
 description: account_saver_against_uninstall
-version: 0.0.2
+version: 0.0.3
 homepage:
 
 environment:
